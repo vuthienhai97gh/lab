@@ -3,8 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/JavaCode/LabQuiz/src/java/haivt/servlet/CreateNewAccountServlet.java</file>
-            <file>file:/D:/JavaCode/LabQuiz/src/java/haivt/registration/RegistrationDAO.java</file>
+            <file>file:/D:/JavaCode/LabQuiz/web/login.jsp</file>
+            <file>file:/D:/JavaCode/LabQuiz/src/java/hatvt/question/QuestionDAO.java</file>
+            <file>file:/D:/JavaCode/LabQuiz/src/java/hatvt/question/QuestionDTO.java</file>
+            <file>file:/D:/JavaCode/LabQuiz/web/search.jsp</file>
+            <file>file:/D:/JavaCode/LabQuiz/src/java/haivt/servlet/SearchServlet.java</file>
         </group>
     </open-files>
 </project-private>

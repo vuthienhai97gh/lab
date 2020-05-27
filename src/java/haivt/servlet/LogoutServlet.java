@@ -5,24 +5,19 @@
  */
 package haivt.servlet;
 
-import hatvt.question.QuestionDAO;
-import hatvt.question.QuestionDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import javax.naming.NamingException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author vuthi
  */
-public class SearchServlet extends HttpServlet {
+public class LogoutServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,23 +31,15 @@ public class SearchServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = "error.jsp";
-        try (PrintWriter out = response.getWriter()) {
-            ArrayList<QuestionDTO> questionList = new ArrayList<>();
-            QuestionDAO questionDAO = new QuestionDAO();
-            try {
-                questionList = questionDAO.getListQuestion(1);
-                request.setAttribute("LISTQUESTION", questionList);
-                url = "search.jsp";
-            } catch (SQLException s) {
-                log("Error at " + s.getMessage());
-            } catch (NamingException ex) {
-                log("Error at SearchServlet_Naming " + ex.getMessage());
-            } finally {
-                RequestDispatcher rd = request.getRequestDispatcher(url);
-                rd.forward(request, response);
-                out.close();
+        PrintWriter out = response.getWriter();
+        try  {
+            HttpSession session = request.getSession();
+            if (session != null) {
+                session.invalidate();
+                response.sendRedirect("login.jsp");
             }
+        }catch(Exception e){
+            e.printStackTrace();
         }
     }
 

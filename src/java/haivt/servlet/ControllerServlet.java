@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ControllerServlet extends HttpServlet {
 
     private final String loginServlet = "LoginServlet";
+    private final String logoutServlet = "LogoutServlet";
     private final String loginPage = "login.jsp";
     private final String searchServlet = "SearchServlet";
     private final String deleteServlet = "DeleteServlet";
@@ -48,6 +49,8 @@ public class ControllerServlet extends HttpServlet {
                 url = nullServlet;
             } else if (button.equals("Login")) {
                 url = loginServlet;
+            } else if (button.equals("Logout")) {
+                url = logoutServlet;
             } else if (button.equals("Search")) {
                 url = searchServlet;
             } else if (button.equals("del")) {

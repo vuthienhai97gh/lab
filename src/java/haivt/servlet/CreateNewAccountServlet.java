@@ -87,10 +87,12 @@ public class CreateNewAccountServlet extends HttpServlet {
         } catch (NamingException ex) {
             log("CreateNewAccountServlet _ Naming: " + ex.getMessage());
         } catch (SQLException ex) {
-            log("CreateNewAccountServlet _ SQL: " + ex.getMessage());
-            errors.setEmailIsExisted(email + " da ton tai!!!");
-            request.setAttribute("INSERTERR", errors);
-
+            String msg = ex.getMessage();
+            log("CreateAccountServlet _ SQL: " + msg);
+            if (msg.contains("duplicate")) {
+                errors.setEmailIsExisted(email + " da ton tai!!!");
+                request.setAttribute("INSERTERR", errors);
+            }
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

@@ -15,14 +15,14 @@
     <body>
         <h1>Create Account</h1>
         <form action="ControllerServlet" method="POST">
+            Email* <input type="text" name="txtEmail" value="${param.txtEmail}" /><br/>
             <c:set var="errors" value="${requestScope.INSERTERR}"/>
-            Email* <input type="text" name="txtEmail" value="" /><br/>
             <c:if test="${not empty errors.emailErr}">
                 <font color="red">
                 ${errors.emailErr}
                 </font><br/>
             </c:if>
-            Name* <input type="text" name="txtName" value="" /><br/>
+            Name* <input type="text" name="txtName" value="${param.txtName}" /><br/>
             <c:if test="${not empty errors.nameErr}">
                 <font color="red">
                 ${errors.nameErr}
@@ -43,12 +43,13 @@
             <!--Is Student <input type="checkbox" name="chkRole" value="" checked="checked" /><br/>-->
             <input type="submit" value="Create New Account" name="btAction" />
             <input type="reset" value="Reset" /><br/>
-            <a href="login.jsp">Click here to login page</a>
         </form><br/>
         <c:if test="${not empty errors.emailIsExisted}">
             <font color="red">
             ${errors.emailIsExisted}
             </font>
         </c:if>
+        <a href="login.jsp">Click here to login page</a>
+
     </body>
 </html>
