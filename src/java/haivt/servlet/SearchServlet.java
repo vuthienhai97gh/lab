@@ -5,12 +5,19 @@
  */
 package haivt.servlet;
 
+import haivt.answer.AnswerDAO;
+import haivt.answer.AnswerDTO;
 import hatvt.question.QuestionDAO;
 import hatvt.question.QuestionDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -40,9 +47,17 @@ public class SearchServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             ArrayList<QuestionDTO> questionList = new ArrayList<>();
             QuestionDAO questionDAO = new QuestionDAO();
+            AnswerDAO answerDAO = new AnswerDAO();
             try {
-                questionList = questionDAO.getListQuestion(1);
+                questionList = questionDAO.getListQuestion(1,1);
+                Map<QuestionDTO, List<AnswerDTO>> map = new HashMap<>();
+                for (int i = 0; i < questionList.size(); i++) {
+                    List<AnswerDTO> answerList = answerDAO.getAnswerByQuestionId(questionList.get(i).getId());
+                    map.put(questionList.get(i), answerList);
+                }
+              
                 request.setAttribute("LISTQUESTION", questionList);
+                request.setAttribute("LISTANSWER", map);
                 url = "search.jsp";
             } catch (SQLException s) {
                 log("Error at " + s.getMessage());

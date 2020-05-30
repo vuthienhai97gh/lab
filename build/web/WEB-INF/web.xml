@@ -20,6 +20,14 @@
         <servlet-name>LogoutServlet</servlet-name>
         <servlet-class>haivt.servlet.LogoutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TakeQuizServlet</servlet-name>
+        <servlet-class>haivt.servlet.TakeQuizServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ForwardQuestionServlet</servlet-name>
+        <servlet-class>haivt.servlet.ForwardQuestionServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/ControllerServlet</url-pattern>
@@ -42,6 +50,14 @@
     <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/LogoutServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TakeQuizServlet</servlet-name>
+        <url-pattern>/TakeQuizServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ForwardQuestionServlet</servlet-name>
+        <url-pattern>/ForwardQuestionServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

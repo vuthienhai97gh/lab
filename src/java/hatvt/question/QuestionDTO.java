@@ -19,17 +19,26 @@ public class QuestionDTO implements Serializable{
     private Date createDate;
     private int subjectId;
     private int status;
-
+    private String statusName;
     public QuestionDTO() {
     }
 
-    public QuestionDTO(int id, String question_content, String answer_correct, Date createDate, int subjectId, int status) {
+    public QuestionDTO(int id, String question_content, String answer_correct, Date createDate, int subjectId, int status, String statusName) {
         this.id = id;
         this.question_content = question_content;
         this.answer_correct = answer_correct;
         this.createDate = createDate;
         this.subjectId = subjectId;
         this.status = status;
+        this.statusName = statusName;
+    }
+
+    public String getStatusName() {
+        return statusName;
+    }
+
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
     }
     
     public int getId() {

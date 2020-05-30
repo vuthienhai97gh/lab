@@ -5,6 +5,7 @@
  */
 package haivt.registration;
 
+import haivt.model.Account;
 import haivt.role.RoleDAO;
 import haivt.utils.DBUtil;
 import java.io.Serializable;
@@ -25,15 +26,15 @@ public class RegistrationDAO implements Serializable {
     PreparedStatement ps = null;
     ResultSet rs = null;
 
-    public String checkLogin(String email, String password) throws SQLException, ClassNotFoundException, NamingException {
-
+    public Account checkLogin(String email, String password) throws SQLException, ClassNotFoundException, NamingException {
+        Account account =  new Account();
         String roleName = "";
 
         try {
             con = DBUtil.makeConnection();
 
             if (con != null) {
-                String sql = "Select role From account Where email = ? And password = ? and status = 1";
+                String sql = "Select a.email, a.name, a.password, r.roleName From account a, role r Where email = ? And password = ? and status = 1 and a.role = r.roleId;";
 
                 ps = con.prepareStatement(sql);
                 ps.setString(1, email);
@@ -41,9 +42,10 @@ public class RegistrationDAO implements Serializable {
 
                 rs = ps.executeQuery();
                 if (rs.next()) {
-                    int role = rs.getInt("role");
-                    RoleDAO dao = new RoleDAO();
-                    roleName = dao.getRoleName(role);
+                   account.setEmail(rs.getString("email"));
+                 account.setPassword(rs.getString("password"));
+                 account.setName(rs.getString("name"));
+                 account.setRole(rs.getString("roleName"));
                 }
             }
         } finally {//tạo sau đóng trc
@@ -60,7 +62,7 @@ public class RegistrationDAO implements Serializable {
                 con.close();
             }
         }
-        return roleName;
+        return account;
     }
 
     public boolean createAccount(String email, String name, String password) throws SQLException, NamingException, NoSuchAlgorithmException {

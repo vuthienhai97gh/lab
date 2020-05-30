@@ -6,6 +6,9 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous"></script>
 <!DOCTYPE html>
 <html>
     <head>
@@ -37,22 +40,25 @@
                 <option value="ALL">
                     ALL
                 </option>
-                <option value="ON">
-                    ON
+                <option value="ACTIVE">
+                    Active
                 </option>
-                <option value="OFF" >
-                    OFF
+                <option value="INACTIVE" >
+                    Inactive
                 </option>
             </select>
-
-            <c:forEach var="dto" items="${requestScope.LISTQUESTION}" varStatus="counter">
+               
+                <c:forEach var="dto" items="${LISTANSWER}" varStatus="counter">
+                <c:set var="answer" value="${dto.value}"/>
+                
                 <form action="ControllerServlet" method="POST">
-
-                    <table border="2">
+                        
+                    <table border="2" class="table">
                         <thead>
                             <tr>
-                                <th colspan="2">
-                                    ${counter.count}. <input type="text" name="txtQuestion" value="${dto.question_content}" />
+                                <th colspan="2" >
+     
+                                    ${counter.count}. <input type="text" name="txtQuestion" value="${dto.key.question_content}" />
                                 </th>
                                 <th>Answer Correct</th>
                                 <th>Status</th>
@@ -62,36 +68,59 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>A.<input type="text" name="answerA" value="" ></td>
-                                <td>B.<input type="text" name="answerB" value="" ></td>
+                                <td>A.<input type="text" name="answerA" value="${answer.get(0).answerContent}" ></td>
+                                <td>B.<input type="text" name="answerB" value="${answer.get(1).answerContent}" ></td>
                                 <td>
-                                    
-                                    <input type="text" name="txtAnserCorrect" value="${dto.answer_correct}" />
+
+                                    <input type="text" name="txtAnserCorrect" value="${dto.key.answer_correct}" />
                                 </td>
                                 <td>
-                                    <input type="text" name="txtStatus" value="${dto.status}" />
-                                                                    </td>
+                                    <select id="statusId" name="dplStatus">
+                                        <option  value="1">Active</option>
+                                        <option selected="selected" value="2">InActive</option>
+                                    </select>
+                                    
+                                </td>
                                 <td>
                                     <c:url var="delLink" value="ControllerServlet">
                                         <c:param name="btAction" value="del"/>
-                                        <c:param name="pk" value="${dto.id}"/>
+                                        <c:param name="pk" value=""/>
                                     </c:url>
                                     <a href="${delLink}">Delete</a>
                                 </td>
                                 <td>
                                     <input type="submit" value="Update" name="btAction" />
-                                    <input type="hidden" value="${param.id}" />
+                                    <input type="hidden" value="" />
                                 </td>
                             </tr>
                             <tr>
-                                <td>C.<input type="text" name="answerC" value="" ></td>
-                                <td>D.<input type="text" name="answerD" value="" ></td>
+                                <td>C.<input type="text" name="answerC" value="${answer.get(2).answerContent}" ></td>
+                                <td>D.<input type="text" name="answerD" value="${answer.get(3).answerContent}" ></td>
                             </tr>
                         </tbody>
                     </table>
                     <br/>
                 </form>
-            </c:forEach>
+            </c:forEach> 
+            <nav aria-label="Search results pages">
+                <ul class="pagination">
+                    <li class="page-item disabled" >
+                        <a class="page-link" href="#" tabindex="-1">Previous</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">3</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav>
         </form>
     </body>
 </html>

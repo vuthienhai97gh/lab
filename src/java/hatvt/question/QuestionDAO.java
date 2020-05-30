@@ -20,7 +20,7 @@ import javax.naming.NamingException;
  * @author vuthi
  */
 public class QuestionDAO implements Serializable{
-    public ArrayList<QuestionDTO> getListQuestion(int subjectId) throws SQLException, NamingException{
+    public ArrayList<QuestionDTO> getListQuestion(int subjectId, int status) throws SQLException, NamingException{
         ArrayList<QuestionDTO> list = new ArrayList<>();
         Connection con = null;
         PreparedStatement ps = null;
@@ -29,8 +29,14 @@ public class QuestionDAO implements Serializable{
             con = DBUtil.makeConnection();
 
             if (con != null) {
-                String sql = "select questionId, question_content, answer_correct, createDate, questionStatus from question where subjectId = ? and questionStatus = 1";
-                ps = con.prepareStatement(sql);
+                if(subjectId == 0 && status == 0){
+                    String sql = "select q.questionId, q.question_content, q.answer_correct, q.createDate, q.questionStatus, s.name from question q, status s where s.id = q.questionStatus";
+                    ps = con.prepareStatement(sql);
+                }else if(subjectId !=0 && status == 0){
+                    String sql = "select q.questionId, q.question_content, q.answer_correct, q.createDate, q.questionStatus, s.name from question q, status s where s.id = q.questionStatus";
+                    ps = con.prepareStatement(sql);
+                }
+                //ps = con.prepareStatement(sql);
                 ps.setInt(1, subjectId);
                 rs = ps.executeQuery();
                 while(rs.next()){
@@ -38,8 +44,9 @@ public class QuestionDAO implements Serializable{
                 String question_content = rs.getString("question_content");
                 String answer_correct = rs.getString("answer_correct");
                 int questionStatus = rs.getInt("questionStatus");
+                String statusName = rs.getString("name");
                 Date createDate = rs.getDate("createDate");
-                QuestionDTO questionDTO = new QuestionDTO(id, question_content, answer_correct, createDate, subjectId, questionStatus);
+                QuestionDTO questionDTO = new QuestionDTO(id, question_content, answer_correct, createDate, subjectId, questionStatus, statusName);
                 list.add(questionDTO);
             }
             }

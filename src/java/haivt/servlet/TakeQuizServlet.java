@@ -7,7 +7,6 @@ package haivt.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,18 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author vuthi
  */
-public class ControllerServlet extends HttpServlet {
-
-    private final String loginServlet = "LoginServlet";
-    private final String logoutServlet = "LogoutServlet";
-    private final String loginPage = "login.jsp";
-    private final String searchServlet = "SearchServlet";
-    private final String deleteServlet = "DeleteServlet";
-    private final String updateServlet = "UpdateServlet";
-    private final String nullServlet = "NullServlet";
-    private final String createAccountServlet = "CreateNewAccountServlet";
-    private final String takeQuizServlet = "TakeQuizServlet";
-    private final String forwardQuestionServlet = "ForwardQuestionServlet";
+public class TakeQuizServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,39 +30,17 @@ public class ControllerServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            String button = request.getParameter("btAction");
-            String url = loginPage;
-
-            if (button == null) {
-                url = nullServlet;
-            } else if (button.equals("Login")) {
-                url = loginServlet;
-            } else if (button.equals("Logout")) {
-                url = logoutServlet;
-            } else if (button.equals("Search")) {
-                url = searchServlet;
-            } else if (button.equals("del")) {
-                url = deleteServlet;
-            } else if (button.equals("Update")) {
-                url = updateServlet;
-            } else if (button.equals("Create New Account")) {
-                url = createAccountServlet;
-            } else if (button.equals("Take Quiz")) {
-                url = takeQuizServlet;
-            } else if (button.equals("Next")) {
-                request.setAttribute("ACTION", "Next");
-                url = forwardQuestionServlet;
-            } else if (button.equals("Previous")) {
-                request.setAttribute("ACTION", "Previous");
-                url = forwardQuestionServlet;
-            }
-
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
-        } finally {
-            out.close();
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet TakeQuizServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet TakeQuizServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 

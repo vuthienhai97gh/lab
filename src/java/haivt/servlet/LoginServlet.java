@@ -5,6 +5,7 @@
  */
 package haivt.servlet;
 
+import haivt.model.Account;
 import haivt.registration.RegistrationDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -46,13 +47,13 @@ public class LoginServlet extends HttpServlet {
             String password = request.getParameter("txtPassword");
 
             RegistrationDAO dao = new RegistrationDAO();
-            String result = dao.checkLogin(email, password);
+            Account account = dao.checkLogin(email, password);
 
-            if (!result.equals("")) {
+            if (account != null) {
                 url = searchPage;
                 HttpSession session = request.getSession();
-                session.setAttribute("USERID", email);
-                session.setAttribute("ROLE", result);
+                session.setAttribute("USERID", account.getName());
+                session.setAttribute("ROLE", account.getRole());
             }
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
