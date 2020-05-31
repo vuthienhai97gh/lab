@@ -51,6 +51,10 @@ public class SearchServlet extends HttpServlet {
             QuestionDAO questionDAO = new QuestionDAO();
             AnswerDAO answerDAO = new AnswerDAO();
             try {
+                if(subjectId == null && status == null){
+                    subjectId = "0";
+                    status = "0";
+                }
                 questionList = questionDAO.getListQuestion(Integer.parseInt(subjectId),Integer.parseInt(status));
                 Map<QuestionDTO, List<AnswerDTO>> map = new HashMap<>();
                 for (int i = 0; i < questionList.size(); i++) {
