@@ -116,5 +116,36 @@ public class QuestionDAO implements Serializable{
         }
         return false;
     }
-    
+      public boolean deleteQuestion(int questionId) throws SQLException, NamingException{
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtil.makeConnection();
+
+            if (con != null) {
+                String sql = "update question set questionStatus = 2 where questionId = ?";
+                ps = con.prepareStatement(sql);
+                ps.setInt(1, questionId);
+                int row = ps.executeUpdate();
+                if(row > 0){
+                    return true;
+                }
+            }
+        } finally {//tạo sau đóng trc
+            if (rs != null)//Result
+            {
+                rs.close();
+            }
+            if (ps != null)//Prepare
+            {
+                ps.close();
+            }
+            if (con != null)//Connect
+            {
+                con.close();
+            }
+        }
+        return false;
+    }
 } 
