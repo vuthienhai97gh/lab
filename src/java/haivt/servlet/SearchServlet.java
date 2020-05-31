@@ -46,6 +46,7 @@ public class SearchServlet extends HttpServlet {
         String url = "error.jsp";
         String subjectId = request.getParameter("cbSubject");
         String status = request.getParameter("questionStatus");
+        String searchValue = request.getParameter("txtSearchValue");
         try (PrintWriter out = response.getWriter()) {
             ArrayList<QuestionDTO> questionList = new ArrayList<>();
             QuestionDAO questionDAO = new QuestionDAO();
@@ -55,7 +56,7 @@ public class SearchServlet extends HttpServlet {
                     subjectId = "0";
                     status = "0";
                 }
-                questionList = questionDAO.getListQuestion(Integer.parseInt(subjectId),Integer.parseInt(status));
+                questionList = questionDAO.getListQuestion(Integer.parseInt(subjectId),Integer.parseInt(status), searchValue);
                 Map<QuestionDTO, List<AnswerDTO>> map = new HashMap<>();
                 for (int i = 0; i < questionList.size(); i++) {
                     List<AnswerDTO> answerList = answerDAO.getAnswerByQuestionId(questionList.get(i).getId());
