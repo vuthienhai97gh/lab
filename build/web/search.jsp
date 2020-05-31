@@ -96,7 +96,6 @@
                                     </td>
                                     <td>
                                         <input type="submit" value="Update" name="btAction" />
-                                        <input type="hidden" value="" />
                                     </td>
                                 </tr>
                                 <tr>
