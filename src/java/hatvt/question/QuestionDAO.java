@@ -33,11 +33,20 @@ public class QuestionDAO implements Serializable{
                     String sql = "select q.questionId, q.question_content, q.answer_correct, q.createDate, q.questionStatus, s.name from question q, status s where s.id = q.questionStatus";
                     ps = con.prepareStatement(sql);
                 }else if(subjectId !=0 && status == 0){
-                    String sql = "select q.questionId, q.question_content, q.answer_correct, q.createDate, q.questionStatus, s.name from question q, status s where s.id = q.questionStatus";
+                    String sql = "select q.questionId, q.question_content, q.answer_correct, q.createDate, q.questionStatus, s.name from question q, status s where s.id = q.questionStatus and subjectId = ?";
                     ps = con.prepareStatement(sql);
+                    ps.setInt(1, subjectId);
+                }else if(subjectId ==0 && status != 0){
+                     String sql = "select q.questionId, q.question_content, q.answer_correct, q.createDate, q.questionStatus, s.name from question q, status s where s.id = q.questionStatus and questionStatus = ?";
+                    ps = con.prepareStatement(sql);
+                    ps.setInt(1, status);
+                }else{
+                    String sql = "select q.questionId, q.question_content, q.answer_correct, q.createDate, q.questionStatus, s.name from question q, status s where s.id = q.questionStatus and questionStatus = ? and subjectId = ?";
+                    ps = con.prepareStatement(sql);
+                    ps.setInt(1, status);
+                    ps.setInt(subjectId, subjectId);
                 }
                 //ps = con.prepareStatement(sql);
-                ps.setInt(1, subjectId);
                 rs = ps.executeQuery();
                 while(rs.next()){
                 int id = rs.getInt("questionId");
