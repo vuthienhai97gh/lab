@@ -58,4 +58,36 @@ public class AnswerDAO implements Serializable{
         }
         return list;
     }
+      public boolean createAnswer(String answerA, String answerB, String answerC, String answerD) throws SQLException, NamingException{
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtil.makeConnection();
+
+            if (con != null) {
+                String sql = "insert into question(question_content, answer_correct, createDate, subjectId, questionStatus) values (?, ?, GETDATE() , ?, ? )";
+                ps = con.prepareStatement(sql);
+                
+                int row = ps.executeUpdate();
+                if(row > 0){
+                    return true;
+                }
+            }
+        } finally {//tạo sau đóng trc
+            if (rs != null)//Result
+            {
+                rs.close();
+            }
+            if (ps != null)//Prepare
+            {
+                ps.close();
+            }
+            if (con != null)//Connect
+            {
+                con.close();
+            }
+        }
+        return false;
+    }
 }
