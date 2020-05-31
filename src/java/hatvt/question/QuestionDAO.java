@@ -20,7 +20,69 @@ import javax.naming.NamingException;
  * @author vuthi
  */
 public class QuestionDAO implements Serializable{
-    public ArrayList<QuestionDTO> getListQuestion(int subjectId, int status) throws SQLException, NamingException{
+    public ArrayList<QuestionDTO> getListQuestion(int subjectId, int status, String searchValue) throws SQLException, NamingException{
+        ArrayList<QuestionDTO> list = new ArrayList<>();
+        if(searchValue ==null){
+            searchValue = "";
+        }
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            con = DBUtil.makeConnection();
+
+            if (con != null) {
+                if(subjectId == 0 && status == 0){
+                    String sql = "select q.questionId, q.question_content, q.answer_correct, q.createDate, q.questionStatus, s.name from question q, status s where s.id = q.questionStatus and question_content like ?";
+                    ps = con.prepareStatement(sql);
+                    ps.setString(1, "%" + searchValue + "%");
+                }else if(subjectId !=0 && status == 0){
+                    String sql = "select q.questionId, q.question_content, q.answer_correct, q.createDate, q.questionStatus, s.name from question q, status s where s.id = q.questionStatus and subjectId = ? and question_content like ?";
+                    ps = con.prepareStatement(sql);
+                    ps.setInt(1, subjectId);
+                    ps.setString(2, "%" + searchValue + "%");
+                }else if(subjectId ==0 && status != 0){
+                     String sql = "select q.questionId, q.question_content, q.answer_correct, q.createDate, q.questionStatus, s.name from question q, status s where s.id = q.questionStatus and questionStatus = ? and question_content like ?";
+                    ps = con.prepareStatement(sql);
+                    ps.setInt(1, status);
+                    ps.setString(2, "%" + searchValue + "%");
+                }else{
+                    String sql = "select q.questionId, q.question_content, q.answer_correct, q.createDate, q.questionStatus, s.name from question q, status s where s.id = q.questionStatus and questionStatus = ? and subjectId = ? and question_content like ?";
+                    ps = con.prepareStatement(sql);
+                    ps.setInt(1, status);
+                    ps.setInt(2, subjectId);
+                    ps.setString(3, "%" + searchValue + "%");
+                }
+                //ps = con.prepareStatement(sql);
+                rs = ps.executeQuery();
+                while(rs.next()){
+                int id = rs.getInt("questionId");
+                String question_content = rs.getString("question_content");
+                String answer_correct = rs.getString("answer_correct");
+                int questionStatus = rs.getInt("questionStatus");
+                String statusName = rs.getString("name");
+                Date createDate = rs.getDate("createDate");
+                QuestionDTO questionDTO = new QuestionDTO(id, question_content, answer_correct, createDate, subjectId, questionStatus, statusName);
+                list.add(questionDTO);
+            }
+            }
+        } finally {//tạo sau đóng trc
+            if (rs != null)//Result
+            {
+                rs.close();
+            }
+            if (ps != null)//Prepare
+            {
+                ps.close();
+            }
+            if (con != null)//Connect
+            {
+                con.close();
+            }
+        }
+        return list;
+    }
+    public ArrayList<QuestionDTO> UpdateQuestion(int subjectId, int status) throws SQLException, NamingException{
         ArrayList<QuestionDTO> list = new ArrayList<>();
         Connection con = null;
         PreparedStatement ps = null;
@@ -75,4 +137,5 @@ public class QuestionDAO implements Serializable{
         }
         return list;
     }
+    
 } 
