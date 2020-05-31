@@ -63,10 +63,11 @@
                             <thead>
                                 <tr>
                                     <th colspan="2" >
-
+                                        <input type="hidden" name="txtQid" value="${dto.key.id}" />
                                         ${counter.count}. <input type="text" name="txtQuestion" value="${dto.key.question_content}" />
                                     </th>
                                     <th>Answer Correct</th>
+                                    <th>Subject</th>
                                     <th>Status</th>
                                     <th>Delete</th>
                                     <th>Update</th>
@@ -77,15 +78,13 @@
                                     <td>A.<input type="text" name="answerA" value="${answer.get(0).answerContent}" ></td>
                                     <td>B.<input type="text" name="answerB" value="${answer.get(1).answerContent}" ></td>
                                     <td>
-
                                         <input type="text" name="txtAnserCorrect" value="${dto.key.answer_correct}" />
                                     </td>
                                     <td>
-                                        <select id="statusId" name="dplStatus">
-                                            <option value="1">Active</option>
-                                            <option value="2">InActive</option>
-                                        </select>
-
+                                        ${dto.key.subjectId}
+                                    </td>
+                                    <td>
+                                        ${dto.key.statusName}
                                     </td>
                                     <td>
                                         <c:url var="delLink" value="ControllerServlet">
