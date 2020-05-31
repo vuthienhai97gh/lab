@@ -82,8 +82,7 @@ public class QuestionDAO implements Serializable{
         }
         return list;
     }
-    public ArrayList<QuestionDTO> UpdateQuestion(int subjectId, int status) throws SQLException, NamingException{
-        ArrayList<QuestionDTO> list = new ArrayList<>();
+    public boolean UpdateQuestion(String questionContent, String answerCorrect, int questionId) throws SQLException, NamingException{
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -91,35 +90,15 @@ public class QuestionDAO implements Serializable{
             con = DBUtil.makeConnection();
 
             if (con != null) {
-                if(subjectId == 0 && status == 0){
-                    String sql = "select q.questionId, q.question_content, q.answer_correct, q.createDate, q.questionStatus, s.name from question q, status s where s.id = q.questionStatus";
-                    ps = con.prepareStatement(sql);
-                }else if(subjectId !=0 && status == 0){
-                    String sql = "select q.questionId, q.question_content, q.answer_correct, q.createDate, q.questionStatus, s.name from question q, status s where s.id = q.questionStatus and subjectId = ?";
-                    ps = con.prepareStatement(sql);
-                    ps.setInt(1, subjectId);
-                }else if(subjectId ==0 && status != 0){
-                     String sql = "select q.questionId, q.question_content, q.answer_correct, q.createDate, q.questionStatus, s.name from question q, status s where s.id = q.questionStatus and questionStatus = ?";
-                    ps = con.prepareStatement(sql);
-                    ps.setInt(1, status);
-                }else{
-                    String sql = "select q.questionId, q.question_content, q.answer_correct, q.createDate, q.questionStatus, s.name from question q, status s where s.id = q.questionStatus and questionStatus = ? and subjectId = ?";
-                    ps = con.prepareStatement(sql);
-                    ps.setInt(1, status);
-                    ps.setInt(subjectId, subjectId);
+                String sql = "update question set question_content = ? , answer_correct = ? where questionId = ?";
+                ps = con.prepareStatement(sql);
+                ps.setString(1, questionContent);
+                ps.setString(2, answerCorrect);
+                ps.setInt(3, questionId);
+                int row = ps.executeUpdate();
+                if(row > 0){
+                    return true;
                 }
-                //ps = con.prepareStatement(sql);
-                rs = ps.executeQuery();
-                while(rs.next()){
-                int id = rs.getInt("questionId");
-                String question_content = rs.getString("question_content");
-                String answer_correct = rs.getString("answer_correct");
-                int questionStatus = rs.getInt("questionStatus");
-                String statusName = rs.getString("name");
-                Date createDate = rs.getDate("createDate");
-                QuestionDTO questionDTO = new QuestionDTO(id, question_content, answer_correct, createDate, subjectId, questionStatus, statusName);
-                list.add(questionDTO);
-            }
             }
         } finally {//tạo sau đóng trc
             if (rs != null)//Result
@@ -135,7 +114,7 @@ public class QuestionDAO implements Serializable{
                 con.close();
             }
         }
-        return list;
+        return false;
     }
     
 } 
