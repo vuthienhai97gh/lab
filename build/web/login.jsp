@@ -14,7 +14,7 @@
     <body>
         <h1>Login Page</h1>
         <form action="ControllerServlet" method="POST">
-            Email <input type="text" name="txtEmail" value="${param.txtEmail}" /> <br/>
+            Email <input type="text" name="txtEmail" value="" /> <br/>
             Password: <input type="password" name="txtPassword" value="" /><br/>
             <input type="submit" value="Login" name="btAction" />
             <input type="reset" value="Reset" /><br/>
