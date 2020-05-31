@@ -24,7 +24,7 @@ public class ControllerServlet extends HttpServlet {
     private final String loginPage = "login.jsp";
     private final String searchServlet = "SearchServlet";
     private final String deleteServlet = "DeleteServlet";
-    private final String updateServlet = "UpdateServlet";
+    private final String updateServlet = "UpdateQuestionServlet";
     private final String nullServlet = "NullServlet";
     private final String createAccountServlet = "CreateNewAccountServlet";
     private final String takeQuizServlet = "TakeQuizServlet";

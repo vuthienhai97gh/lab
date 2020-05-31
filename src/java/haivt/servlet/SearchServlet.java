@@ -12,7 +12,6 @@ import hatvt.question.QuestionDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -57,7 +56,7 @@ public class SearchServlet extends HttpServlet {
                     status = "0";
                 }
                 questionList = questionDAO.getListQuestion(Integer.parseInt(subjectId),Integer.parseInt(status), searchValue);
-                Map<QuestionDTO, List<AnswerDTO>> map = new HashMap<>();
+                Map<QuestionDTO, List<AnswerDTO>> map = new LinkedHashMap<>();
                 for (int i = 0; i < questionList.size(); i++) {
                     List<AnswerDTO> answerList = answerDAO.getAnswerByQuestionId(questionList.get(i).getId());
                     map.put(questionList.get(i), answerList);

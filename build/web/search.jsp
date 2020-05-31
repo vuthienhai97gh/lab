@@ -78,7 +78,8 @@
                                     <td>A.<input type="text" name="answerA" value="${answer.get(0).answerContent}" ></td>
                                     <td>B.<input type="text" name="answerB" value="${answer.get(1).answerContent}" ></td>
                                     <td>
-                                        <input type="text" name="txtAnserCorrect" value="${dto.key.answer_correct}" />
+                                        <!--<input type="hidden" name="txtAnswerCorrect" value="${dto.key.answer_correct}" />-->
+                                        <input type="text" name="txtAnswerCorrect" value="${dto.key.answer_correct}" />
                                     </td>
                                     <td>
                                         ${dto.key.subjectId}
