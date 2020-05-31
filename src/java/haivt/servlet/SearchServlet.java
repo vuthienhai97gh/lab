@@ -44,18 +44,19 @@ public class SearchServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = "error.jsp";
+        String subjectId = request.getParameter("cbSubject");
+        String status = request.getParameter("questionStatus");
         try (PrintWriter out = response.getWriter()) {
             ArrayList<QuestionDTO> questionList = new ArrayList<>();
             QuestionDAO questionDAO = new QuestionDAO();
             AnswerDAO answerDAO = new AnswerDAO();
             try {
-                questionList = questionDAO.getListQuestion(1,1);
+                questionList = questionDAO.getListQuestion(Integer.parseInt(subjectId),Integer.parseInt(status));
                 Map<QuestionDTO, List<AnswerDTO>> map = new HashMap<>();
                 for (int i = 0; i < questionList.size(); i++) {
                     List<AnswerDTO> answerList = answerDAO.getAnswerByQuestionId(questionList.get(i).getId());
                     map.put(questionList.get(i), answerList);
                 }
-              
                 request.setAttribute("LISTQUESTION", questionList);
                 request.setAttribute("LISTANSWER", map);
                 url = "search.jsp";
