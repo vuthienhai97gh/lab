@@ -28,6 +28,10 @@
         <servlet-name>ForwardQuestionServlet</servlet-name>
         <servlet-class>haivt.servlet.ForwardQuestionServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdateQuestionServlet</servlet-name>
+        <servlet-class>haivt.servlet.UpdateQuestionServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/ControllerServlet</url-pattern>
@@ -58,6 +62,10 @@
     <servlet-mapping>
         <servlet-name>ForwardQuestionServlet</servlet-name>
         <url-pattern>/ForwardQuestionServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateQuestionServlet</servlet-name>
+        <url-pattern>/UpdateQuestionServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
