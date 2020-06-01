@@ -27,14 +27,14 @@ public class RegistrationDAO implements Serializable {
     ResultSet rs = null;
 
     public Account checkLogin(String email, String password) throws SQLException, ClassNotFoundException, NamingException {
-        Account account =  new Account();
+        Account account = null;
         String roleName = "";
 
         try {
             con = DBUtil.makeConnection();
 
             if (con != null) {
-                String sql = "Select a.email, a.name, a.password, r.roleName From account a, role r Where email = ? And password = ? and status = 1 and a.role = r.roleId;";
+                String sql = "Select a.email, a.name, a.password, r.roleName From account a, role r Where email = ? And password = ? and status = 1 and a.role = r.roleId";
 
                 ps = con.prepareStatement(sql);
                 ps.setString(1, email);
