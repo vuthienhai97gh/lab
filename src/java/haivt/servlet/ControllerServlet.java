@@ -28,6 +28,7 @@ public class ControllerServlet extends HttpServlet {
     private final String nullServlet = "NullServlet";
     private final String createAccountServlet = "CreateNewAccountServlet";
     private final String takeQuizServlet = "TakeQuizServlet";
+    private final String createQuestionServlet = "CreateQuestionServlet";
     private final String forwardQuestionServlet = "ForwardQuestionServlet";
 
     /**
@@ -61,6 +62,8 @@ public class ControllerServlet extends HttpServlet {
                 url = updateServlet;
             } else if (button.equals("Create New Account")) {
                 url = createAccountServlet;
+            } else if (button.equals("Create New Question")) {
+                url = createQuestionServlet;
             } else if (button.equals("Take Quiz")) {
                 url = takeQuizServlet;
             } else if (button.equals("Next")) {

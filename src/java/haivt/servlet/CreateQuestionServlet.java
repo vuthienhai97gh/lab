@@ -36,8 +36,8 @@ public class CreateQuestionServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = "error.jsp";
         PrintWriter out = response.getWriter();
-        String questionContent = request.getParameter("questionContent");
-        String answerCorrect = request.getParameter("answerCorrect");
+        String questionContent = request.getParameter("txtQuestionContent");
+        String answerCorrect = request.getParameter("txtAnswerCorrect");
         String subjectId = request.getParameter("subjectId");
         String questionStatus = request.getParameter("questionStatus");
         String answerA = request.getParameter("answerA");

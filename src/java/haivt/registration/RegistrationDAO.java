@@ -6,7 +6,6 @@
 package haivt.registration;
 
 import haivt.model.Account;
-import haivt.role.RoleDAO;
 import haivt.utils.DBUtil;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
