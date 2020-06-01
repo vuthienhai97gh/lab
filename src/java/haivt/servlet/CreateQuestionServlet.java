@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author PhongDCSE62594-PC
  */
-public class UpdateQuestionServlet extends HttpServlet {
+public class CreateQuestionServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,24 +35,22 @@ public class UpdateQuestionServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = "error.jsp";
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            String questionContent = request.getParameter("txtQuestion");
-            String answerCorrect = request.getParameter("txtAnswerCorrect");
-            String questionId = request.getParameter("txtQid");
-            String answerA = request.getParameter("answerA");
-            String answerB = request.getParameter("answerB");
-            String answerC = request.getParameter("answerC");
-            String answerD = request.getParameter("answerD");
-          
-            try {
-                QuestionDAO dao = new QuestionDAO();
-                boolean result = dao.UpdateQuestion(questionContent, answerCorrect, Integer.parseInt(questionId));
-                boolean updateAnswerResult = dao.UpdateAnswer(answerA, answerB, answerC, answerD, Integer.parseInt(questionId));
-                if(result && updateAnswerResult){
-                    url = "SearchServlet";
-                }
-            }catch (SQLException s) {
+        PrintWriter out = response.getWriter();
+        String questionContent = request.getParameter("questionContent");
+        String answerCorrect = request.getParameter("answerCorrect");
+        String subjectId = request.getParameter("subjectId");
+        String questionStatus = request.getParameter("questionStatus");
+        String answerA = request.getParameter("answerA");
+        String answerB = request.getParameter("answerB");
+        String answerC = request.getParameter("answerC");
+        String answerD = request.getParameter("answerD");
+        try {
+            QuestionDAO dao = new QuestionDAO();
+            boolean insertQuestionResult = dao.createQuestion(questionContent,answerCorrect,Integer.parseInt(subjectId), Integer.parseInt(questionStatus));
+            if(insertQuestionResult){
+                url= "SearchServlet";
+            }
+        }catch (SQLException s) {
                 log("Error at " + s.getMessage());
             } catch (NamingException ex) {
                 log("Error at SearchServlet_Naming " + ex.getMessage());
@@ -61,7 +59,6 @@ public class UpdateQuestionServlet extends HttpServlet {
                 rd.forward(request, response);
                 out.close();
             }
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

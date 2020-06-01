@@ -36,6 +36,10 @@
         <servlet-name>DeleteQuestionServlet</servlet-name>
         <servlet-class>haivt.servlet.DeleteQuestionServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreateQuestionServlet</servlet-name>
+        <servlet-class>haivt.servlet.CreateQuestionServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/ControllerServlet</url-pattern>
@@ -74,6 +78,10 @@
     <servlet-mapping>
         <servlet-name>DeleteQuestionServlet</servlet-name>
         <url-pattern>/DeleteQuestionServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateQuestionServlet</servlet-name>
+        <url-pattern>/CreateQuestionServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
