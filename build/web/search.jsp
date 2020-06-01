@@ -16,111 +16,114 @@
         <title>Search</title>
     </head>
     <body>
-        <form action="ControllerServlet" method="POST">
-            <font color="red">Welcome, ${sessionScope.USERID}</font>
-            <input type="submit" value="Logout" name="btAction" />
-        </form>
-        <h1>List Question</h1>
-        <form action="ControllerServlet" method="POST">
-            Search question : <input type="text" name="txtSearchValue" value="${param.txtSearchValue}" /><br/>
-
-            Subject: <select name="cbCategory">
-                <option value="All">
-                    ALL
-                </option>
-                <option value="PRJ311">
-                    PRJ311
-                </option>
-                <option value="PRJ321">
-                    PRJ321
-                </option>
-            </select>
-
-            Status: <select name="cbStatus">
-                <option value="ALL">
-                    ALL
-                </option>
-                <option value="ACTIVE">
-                    Active
-                </option>
-                <option value="INACTIVE" >
-                    Inactive
-                </option>
-            </select>
-               
-                <c:forEach var="dto" items="${LISTANSWER}" varStatus="counter">
-                <c:set var="answer" value="${dto.value}"/>
+        <div class="container-fluid">
+            <form action="ControllerServlet" method="POST">
+                <font color="red">Welcome, ${sessionScope.USERID}</font>
+                <!--<input type="submit" value="Logout" name="btAction" />-->
+                <input class="btn btn-primary" type="submit" value="Logout" name="btAction"><br/>
+            </form>
+            <h1>List Question</h1>
+            <form action="ControllerServlet" method="POST">
                 
-                <form action="ControllerServlet" method="POST">
-                        
-                    <table border="2" class="table">
-                        <thead>
-                            <tr>
-                                <th colspan="2" >
-     
-                                    ${counter.count}. <input type="text" name="txtQuestion" value="${dto.key.question_content}" />
-                                </th>
-                                <th>Answer Correct</th>
-                                <th>Status</th>
-                                <th>Delete</th>
-                                <th>Update</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>A.<input type="text" name="answerA" value="${answer.get(0).answerContent}" ></td>
-                                <td>B.<input type="text" name="answerB" value="${answer.get(1).answerContent}" ></td>
-                                <td>
+                Subject: <select name="cbSubject">
+                    <option value="0">
+                        ALL
+                    </option>
+                    <option value="1">
+                        PRJ311
+                    </option>
+                    <option value="2">
+                        PRJ321
+                    </option>
+                </select>
 
-                                    <input type="text" name="txtAnserCorrect" value="${dto.key.answer_correct}" />
-                                </td>
-                                <td>
-                                    <select id="statusId" name="dplStatus">
-                                        <option  value="1">Active</option>
-                                        <option selected="selected" value="2">InActive</option>
-                                    </select>
+                Status: <select name="questionStatus">
+                    <option value="0" >
+                        ALL
+                    </option>
+                    <option value="1">
+                        Active
+                    </option>
+                    <option value="2">
+                        InActive
+                    </option>
+                </select><br/><br/>
+
+<!--Search question : <input type="text" name="txtSearchValue" value="${param.txtSearchValue}" /><br/>-->
+                <!-- Search form -->
+                <input class="form-control" type="text" placeholder="Search" aria-label="Search" name="txtSearchValue" value="${param.txtSearchValue}"><br/>
+                <input class="btn btn-primary" type="submit" value="Search" name="btAction"><br/><br/>
+
+                <c:forEach var="dto" items="${LISTANSWER}" varStatus="counter">
+                    <c:set var="answer" value="${dto.value}"/>
+
+                    <form action="ControllerServlet" method="POST">
+
+                        <table border="2" class="table">
+                            <thead>
+                                <tr>
+                                    <th colspan="2" >
+                                        <input type="hidden" name="txtQid" value="${dto.key.id}" />
+                                        ${counter.count}. <input type="text" name="txtQuestion" value="${dto.key.question_content}" />
+                                    </th>
+                                    <th>Answer Correct</th>
+                                    <th>Status</th>
+                                    <th>Delete</th>
+                                    <th>Update</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>A.<input type="text" name="answerA" value="${answer.get(0).answerContent}" ></td>
+                                    <td>B.<input type="text" name="answerB" value="${answer.get(1).answerContent}" ></td>
+                                    <td>
+                                        <!--<input type="hidden" name="txtAnswerCorrect" value="${dto.key.answer_correct}" />-->
+                                        <input type="text" name="txtAnswerCorrect" value="${dto.key.answer_correct}" />
+                                    </td>
                                     
-                                </td>
-                                <td>
-                                    <c:url var="delLink" value="ControllerServlet">
-                                        <c:param name="btAction" value="del"/>
-                                        <c:param name="pk" value=""/>
-                                    </c:url>
-                                    <a href="${delLink}">Delete</a>
-                                </td>
-                                <td>
-                                    <input type="submit" value="Update" name="btAction" />
-                                    <input type="hidden" value="" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>C.<input type="text" name="answerC" value="${answer.get(2).answerContent}" ></td>
-                                <td>D.<input type="text" name="answerD" value="${answer.get(3).answerContent}" ></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <br/>
-                </form>
-            </c:forEach> 
-            <nav aria-label="Search results pages">
-                <ul class="pagination">
-                    <li class="page-item disabled" >
-                        <a class="page-link" href="#" tabindex="-1">Previous</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">1</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">3</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
-                    </li>
-                </ul>
-            </nav>
-        </form>
+                                    <td>
+                                        ${dto.key.statusName}
+                                    </td>
+                                    <td>
+                                        <c:url var="delLink" value="ControllerServlet">
+                                            <c:param name="btAction" value="del"/>
+                                            <c:param name="txtQid" value="${dto.key.id}"/>
+                                        </c:url>
+                                        <a href="${delLink}">Delete</a>
+                                    </td>
+                                    <td>
+                                        <input type="submit" value="Update" name="btAction" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>C.<input type="text" name="answerC" value="${answer.get(2).answerContent}" ></td>
+                                    <td>D.<input type="text" name="answerD" value="${answer.get(3).answerContent}" ></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                    </form>
+                </c:forEach> 
+                <nav aria-label="Search results pages">
+                    <ul class="pagination">
+                        <li class="page-item disabled" >
+                            <a class="page-link" href="#" tabindex="-1">Previous</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">1</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">2</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">3</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </form>
+        </div>
     </body>
 </html>

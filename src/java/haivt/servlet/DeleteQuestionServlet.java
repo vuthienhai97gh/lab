@@ -35,7 +35,7 @@ public class DeleteQuestionServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = "error.jsp";
-        String questionId = request.getParameter("ttxQuestionId");
+        String questionId = request.getParameter("txtQid");
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
