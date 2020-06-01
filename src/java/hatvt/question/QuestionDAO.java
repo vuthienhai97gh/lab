@@ -116,35 +116,22 @@ public class QuestionDAO implements Serializable{
         }
         return false;
     }
-    public boolean UpdateAnswer(String answerA, String answerB, String answerC, String answerD, int questionId) throws SQLException, NamingException{
+    public boolean UpdateAnswer(String answer, int questionId, String answerChoice) throws SQLException, NamingException{
         Connection con = null;
-        PreparedStatement psA = null, psB = null, psC = null, psD = null;
+        PreparedStatement ps = null;
         ResultSet rs = null;
         try {
             con = DBUtil.makeConnection();
 
             if (con != null) {
-                String sqlA= "update answer set answer_content = ? where answer_choice = 'A' and questionId = ?";
-                String sqlB = "update answer set answer_content = ? where answer_choice = 'B' and questionId = ?";
-                String sqlC = "update answer set answer_content = ? where answer_choice = 'C' and questionId = ?";
-                String sqlD = "update answer set answer_content = ? where answer_choice = 'D' and questionId = ?";
-                psA = con.prepareStatement(sqlA);
-                psA.setString(1, answerA);
-                psA.setInt(2, questionId);
-                psB = con.prepareStatement(sqlA);
-                psB.setString(1, answerA);
-                psB.setInt(2, questionId);
-                psC = con.prepareStatement(sqlA);
-                psC.setString(1, answerA);
-                psC.setInt(2, questionId);
-                psD = con.prepareStatement(sqlA);
-                psD.setString(1, answerA);
-                psD.setInt(2, questionId);
-                int rowA = psA.executeUpdate();
-                int rowB = psB.executeUpdate();
-                int rowC = psC.executeUpdate();
-                int rowD = psD.executeUpdate();
-                if(rowA > 0 && rowB > 0 && rowC > 0 && rowD > 0){
+                 con.setAutoCommit(false);
+                String sql =  "update answer set answer_content = ? where answer_choice = ? and questionId = ?";
+                ps = con.prepareStatement(sql);
+                ps.setString(1, answer);
+                ps.setString(2, answerChoice);
+                ps.setInt(3, questionId);
+                int row = ps.executeUpdate();
+                if(row > 0){
                     return true;
                 }
             }
@@ -153,22 +140,11 @@ public class QuestionDAO implements Serializable{
             {
                 rs.close();
             }
-            if (psA != null)//Prepare
+            if (ps != null)//Prepare
             {
-                psA.close();
+                ps.close();
             }
-            if (psB != null)//Prepare
-            {
-                psB.close();
-            }
-            if (psC != null)//Prepare
-            {
-                psC.close();
-            }
-            if (psD != null)//Prepare
-            {
-                psD.close();
-            }
+           
             if (con != null)//Connect
             {
                 con.close();
@@ -243,5 +219,43 @@ public class QuestionDAO implements Serializable{
         }
         return false;
     }
-      
+     public QuestionDTO getQuestionByQuestionContent(String questionContent) throws SQLException, NamingException{
+          Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+         QuestionDTO qdto = null;
+        try {
+            con = DBUtil.makeConnection();
+
+            if (con != null) {
+                String sql = "select questionId, question_content, answer_correct, createDate, subjectId, questionStatus from question where question_content";
+                ps = con.prepareStatement(sql);
+                ps.setString(1, questionContent);
+                rs = ps.executeQuery();
+                if(rs.next()){
+                    qdto = new QuestionDTO();
+                    qdto.setId(rs.getInt("questionId"));
+                    qdto.setQuestion_content("question_content");
+                    qdto.setAnswer_correct(rs.getString("answer_correct"));
+                    qdto.setCreateDate(rs.getDate("createDate"));
+                    qdto.setSubjectId(rs.getInt("subjectId"));
+                    qdto.setStatus(rs.getInt("questionStatus"));
+                }
+            }
+        } finally {//tạo sau đóng trc
+            if (rs != null)//Result
+            {
+                rs.close();
+            }
+            if (ps != null)//Prepare
+            {
+                ps.close();
+            }
+            if (con != null)//Connect
+            {
+                con.close();
+            }
+        }
+        return qdto;
+     }
 } 

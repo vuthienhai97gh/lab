@@ -48,8 +48,11 @@ public class UpdateQuestionServlet extends HttpServlet {
             try {
                 QuestionDAO dao = new QuestionDAO();
                 boolean result = dao.UpdateQuestion(questionContent, answerCorrect, Integer.parseInt(questionId));
-                boolean updateAnswerResult = dao.UpdateAnswer(answerA, answerB, answerC, answerD, Integer.parseInt(questionId));
-                if(result && updateAnswerResult){
+                boolean updateAnswerAResult = dao.UpdateAnswer(answerA,  Integer.parseInt(questionId), "A");
+                boolean updateAnswerBResult = dao.UpdateAnswer(answerB,  Integer.parseInt(questionId), "B");
+                boolean updateAnswerCResult = dao.UpdateAnswer(answerC,  Integer.parseInt(questionId), "C");
+                boolean updateAnswerDResult = dao.UpdateAnswer(answerD,  Integer.parseInt(questionId), "D");
+                if(result && updateAnswerAResult && updateAnswerBResult && updateAnswerCResult && updateAnswerDResult){
                     url = "SearchServlet";
                 }
             }catch (SQLException s) {
