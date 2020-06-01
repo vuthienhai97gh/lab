@@ -7,9 +7,13 @@ package haivt.servlet;
 
 import haivt.model.Account;
 import haivt.registration.RegistrationDAO;
+import haivt.utils.PasswordUtilities;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,6 +30,7 @@ public class LoginServlet extends HttpServlet {
 
     private final String invalidPage = "error.jsp";
     private final String searchPage = "SearchServlet";
+    private final String studentPage = "student.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,7 +42,7 @@ public class LoginServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, NoSuchAlgorithmException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String url = invalidPage;
@@ -47,9 +52,10 @@ public class LoginServlet extends HttpServlet {
             String password = request.getParameter("txtPassword");
 
             RegistrationDAO dao = new RegistrationDAO();
-            Account account = dao.checkLogin(email, password);
+            PasswordUtilities pass = new PasswordUtilities();
+            Account account = dao.checkLogin(email, pass.getEncryptPassword(password));
 
-            if (account != null) {
+            if (!account.equals("")) {
                 url = searchPage;
                 HttpSession session = request.getSession();
                 session.setAttribute("USERID", account.getName());
@@ -80,7 +86,11 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -94,7 +104,11 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
