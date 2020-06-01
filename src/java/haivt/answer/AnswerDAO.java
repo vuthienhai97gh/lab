@@ -58,19 +58,36 @@ public class AnswerDAO implements Serializable{
         }
         return list;
     }
-      public boolean createAnswer(String answerA, String answerB, String answerC, String answerD) throws SQLException, NamingException{
+      public boolean createAnswer(int questionId, String answerA, String answerB, String answerC, String answerD) throws SQLException, NamingException{
         Connection con = null;
-        PreparedStatement ps = null;
+        PreparedStatement psA = null, psB = null, psC = null, psD = null;
         ResultSet rs = null;
         try {
             con = DBUtil.makeConnection();
 
             if (con != null) {
-                String sql = "insert into question(question_content, answer_correct, createDate, subjectId, questionStatus) values (?, ?, GETDATE() , ?, ? )";
-                ps = con.prepareStatement(sql);
-                
-                int row = ps.executeUpdate();
-                if(row > 0){
+                String sqlA = "insert into answer(answer_content, questionId, answer_choice) values (?,?,A)";
+                String sqlB = "insert into answer(answer_content, questionId, answer_choice) values (?,?,B)";
+                String sqlC = "insert into answer(answer_content, questionId, answer_choice) values (?,?,C)";
+                String sqlD = "insert into answer(answer_content, questionId, answer_choice) values (?,?,D)";
+                con.setAutoCommit(false);
+                psA = con.prepareStatement(sqlA);
+                psA.setString(1, answerA);
+                psA.setInt(2, questionId);
+                psB = con.prepareStatement(sqlB);
+                psB.setString(1, answerB);
+                psB.setInt(2, questionId);
+                psC = con.prepareStatement(sqlC);
+                psC.setString(1, answerC);
+                psC.setInt(2, questionId);
+                psD = con.prepareStatement(sqlD);
+                psD.setString(1, answerD);
+                psD.setInt(2, questionId);
+                int rowA = psA.executeUpdate();
+                int rowB = psB.executeUpdate();
+                int rowC = psC.executeUpdate();
+                int rowD = psD.executeUpdate();
+                if(rowA > 0 && rowB > 0 && rowC > 0 && rowD > 0){
                     return true;
                 }
             }
@@ -79,9 +96,21 @@ public class AnswerDAO implements Serializable{
             {
                 rs.close();
             }
-            if (ps != null)//Prepare
+            if (psA != null)//Prepare
             {
-                ps.close();
+                psA.close();
+            }
+            if (psB != null)//Prepare
+            {
+                psB.close();
+            }
+            if (psC != null)//Prepare
+            {
+                psC.close();
+            }
+            if (psD != null)//Prepare
+            {
+                psD.close();
             }
             if (con != null)//Connect
             {

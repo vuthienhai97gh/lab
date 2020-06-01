@@ -5,7 +5,9 @@
  */
 package haivt.servlet;
 
+import haivt.answer.AnswerDAO;
 import hatvt.question.QuestionDAO;
+import hatvt.question.QuestionDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -46,9 +48,16 @@ public class CreateQuestionServlet extends HttpServlet {
         String answerD = request.getParameter("answerD");
         try {
             QuestionDAO dao = new QuestionDAO();
+            AnswerDAO answerDAO = new AnswerDAO();
             boolean insertQuestionResult = dao.createQuestion(questionContent,answerCorrect,Integer.parseInt(subjectId), Integer.parseInt(questionStatus));
             if(insertQuestionResult){
-                url= "SearchServlet";
+                QuestionDTO questionDTO = dao.getQuestionByQuestionContent(questionContent);
+                if(questionDTO != null){
+                    boolean insertAnswerResult = answerDAO.createAnswer(questionDTO.getId(), answerA, answerB, answerC, answerD);
+                    if(insertAnswerResult){
+                        url = "SearchServlet";
+                    }
+                }
             }
         }catch (SQLException s) {
                 log("Error at " + s.getMessage());
