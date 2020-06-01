@@ -38,7 +38,7 @@
                 </select>
 
                 Status: <select name="questionStatus">
-                    <option value="0">
+                    <option value="0" >
                         ALL
                     </option>
                     <option value="1">
@@ -67,7 +67,6 @@
                                         ${counter.count}. <input type="text" name="txtQuestion" value="${dto.key.question_content}" />
                                     </th>
                                     <th>Answer Correct</th>
-                                    <th>Subject</th>
                                     <th>Status</th>
                                     <th>Delete</th>
                                     <th>Update</th>
@@ -81,16 +80,14 @@
                                         <!--<input type="hidden" name="txtAnswerCorrect" value="${dto.key.answer_correct}" />-->
                                         <input type="text" name="txtAnswerCorrect" value="${dto.key.answer_correct}" />
                                     </td>
-                                    <td>
-                                        ${dto.key.subjectId}
-                                    </td>
+                                    
                                     <td>
                                         ${dto.key.statusName}
                                     </td>
                                     <td>
                                         <c:url var="delLink" value="ControllerServlet">
                                             <c:param name="btAction" value="del"/>
-                                            <c:param name="pk" value=""/>
+                                            <c:param name="txtQid" value="${dto.key.id}"/>
                                         </c:url>
                                         <a href="${delLink}">Delete</a>
                                     </td>
