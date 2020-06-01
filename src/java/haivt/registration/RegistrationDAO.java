@@ -42,7 +42,8 @@ public class RegistrationDAO implements Serializable {
 
                 rs = ps.executeQuery();
                 if (rs.next()) {
-                   account.setEmail(rs.getString("email"));
+                    account = new Account();
+                  account.setEmail(rs.getString("email"));
                  account.setPassword(rs.getString("password"));
                  account.setName(rs.getString("name"));
                  account.setRole(rs.getString("roleName"));
