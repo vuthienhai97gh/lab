@@ -26,7 +26,7 @@ public class RegistrationDAO implements Serializable {
     ResultSet rs = null;
 
     public Account checkLogin(String email, String password) throws SQLException, ClassNotFoundException, NamingException {
-        Account account = new Account();
+        Account account = null;
 
         try {
             con = DBUtil.makeConnection();
@@ -40,6 +40,7 @@ public class RegistrationDAO implements Serializable {
 
                 rs = ps.executeQuery();
                 if (rs.next()) {
+                    account = new Account();
                     account.setEmail(rs.getString("email"));
                     account.setPassword(rs.getString("password"));
                     account.setName(rs.getString("name"));

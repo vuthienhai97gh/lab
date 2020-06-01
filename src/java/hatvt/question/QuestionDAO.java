@@ -228,7 +228,7 @@ public class QuestionDAO implements Serializable{
             con = DBUtil.makeConnection();
 
             if (con != null) {
-                String sql = "select questionId, question_content, answer_correct, createDate, subjectId, questionStatus from question where question_content";
+                String sql = "select questionId, question_content, answer_correct, createDate, subjectId, questionStatus from question where question_content = ?";
                 ps = con.prepareStatement(sql);
                 ps.setString(1, questionContent);
                 rs = ps.executeQuery();

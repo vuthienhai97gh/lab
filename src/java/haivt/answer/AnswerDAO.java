@@ -64,10 +64,10 @@ public class AnswerDAO implements Serializable{
             con = DBUtil.makeConnection();
 
             if (con != null) {
-                String sqlA = "insert into answer(answer_content, questionId, answer_choice) values (?,?,A)";
-                String sqlB = "insert into answer(answer_content, questionId, answer_choice) values (?,?,B)";
-                String sqlC = "insert into answer(answer_content, questionId, answer_choice) values (?,?,C)";
-                String sqlD = "insert into answer(answer_content, questionId, answer_choice) values (?,?,D)";
+                String sqlA = "insert into answer(answer_content, questionId, answer_choice) values (?,?,'A')";
+                String sqlB = "insert into answer(answer_content, questionId, answer_choice) values (?,?,'B')";
+                String sqlC = "insert into answer(answer_content, questionId, answer_choice) values (?,?,'C')";
+                String sqlD = "insert into answer(answer_content, questionId, answer_choice) values (?,?,'D')";
                 con.setAutoCommit(false);
                 psA = con.prepareStatement(sqlA);
                 psA.setString(1, answerA);
@@ -81,13 +81,18 @@ public class AnswerDAO implements Serializable{
                 psD = con.prepareStatement(sqlD);
                 psD.setString(1, answerD);
                 psD.setInt(2, questionId);
-                int rowA = psA.executeUpdate();
-                int rowB = psB.executeUpdate();
-                int rowC = psC.executeUpdate();
-                int rowD = psD.executeUpdate();
-                if(rowA > 0 && rowB > 0 && rowC > 0 && rowD > 0){
-                    return true;
-                }
+//                int rowA = psA.executeUpdate();
+//                int rowB = psB.executeUpdate();
+//                int rowC = psC.executeUpdate();
+//                int rowD = psD.executeUpdate();
+                psA.execute();
+                psB.execute();
+                psC.execute();
+                psD.execute();
+//                rs = psA.executeQuery();
+//                if(rowA > 0 && rowB > 0 && rowC > 0 && rowD > 0){
+//                    return true;
+//                }
             }
         } finally {//tạo sau đóng trc
             if (rs != null)//Result
