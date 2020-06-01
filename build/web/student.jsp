@@ -14,17 +14,10 @@
         <title>Quiz Page</title>
     </head>
     <body>
-        <font color="red">Welcome, ${sessionScope.USERID}</font>
-        <c:set var="listSubject" value="${sessionScope.SUBJECT}"/>
-        <c:if test="${not empty listSubject}">
-            <form action="ControllerServlet" method="POST">
-                Subject: <select name="subjectId">
-                    <c:forEach var="item" items="${listSubject}">
-                        <option value="${item.subjectId}">${item.subjectName}</option>
-                    </c:forEach>
-                </select><br/>
-                <input type="submit" value="Take Quiz" name="btAction" />
-            </form><br/>
-        </c:if>
+        <c:if test="${sessionScope.ROLE != 'ADMIN'}">
+                <font color="blue">
+                Welcome, ${sessionScope.USERID}
+                </font><br>
+            </c:if>
     </body>
 </html>
