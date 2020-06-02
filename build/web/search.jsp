@@ -39,10 +39,10 @@
                             ALL
                         </option>
                         <option value="1">
-                            PRJ311
+                            PRJ321
                         </option>
                         <option value="2">
-                            PRJ321
+                            PRJ311
                         </option>
                     </select>
 
@@ -76,6 +76,7 @@
                                             ${counter.count}. <input type="text" name="txtQuestion" value="${dto.key.question_content}" />
                                         </th>
                                         <th>Answer Correct</th>
+                                        <th>Subject</th>
                                         <th>Status</th>
                                         <th>Delete</th>
                                         <th>Update</th>
@@ -89,7 +90,9 @@
                                             <!--<input type="hidden" name="txtAnswerCorrect" value="${dto.key.answer_correct}" />-->
                                             <input type="text" name="txtAnswerCorrect" value="${dto.key.answer_correct}" />
                                         </td>
-
+                                        <td>
+                                            ${dto.key.subjectId}
+                                        </td>
                                         <td>
                                             ${dto.key.statusName}
                                         </td>
