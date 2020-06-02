@@ -22,6 +22,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -45,6 +46,7 @@ public class SearchServlet extends HttpServlet {
         String subjectId = request.getParameter("cbSubject");
         String status = request.getParameter("questionStatus");
         String searchValue = request.getParameter("txtSearchValue");
+        HttpSession session = request.getSession();
         try (PrintWriter out = response.getWriter()) {
             ArrayList<QuestionDTO> questionList = new ArrayList<>();
             QuestionDAO questionDAO = new QuestionDAO();
@@ -60,8 +62,8 @@ public class SearchServlet extends HttpServlet {
                     List<AnswerDTO> answerList = answerDAO.getAnswerByQuestionId(questionList.get(i).getId());
                     map.put(questionList.get(i), answerList);
                 }
-                request.setAttribute("LISTQUESTION", questionList);
-                request.setAttribute("LISTANSWER", map);
+                session.setAttribute("LISTQUESTION", questionList);
+                session.setAttribute("LISTANSWER", map);
                 url = "search.jsp";
             } catch (SQLException s) {
                 log("Error at " + s.getMessage());

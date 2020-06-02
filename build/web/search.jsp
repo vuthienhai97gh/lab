@@ -63,7 +63,26 @@
                     <input class="form-control" type="text" placeholder="Search" aria-label="Search" name="txtSearchValue" value="${param.txtSearchValue}"><br/>
                     <input class="btn btn-primary" type="submit" value="Search" name="btAction"><br/><br/>
 
-                    <c:forEach var="dto" items="${LISTANSWER}" varStatus="counter">
+                    <%--<c:set var="list" scope="session" value="${sessionScope.LISTQUESTION}"/>--%>
+                    <c:set var="totalCount" scope="session" value="${sessionScope.LISTQUESTION.size()}"/>
+
+                    <c:set var="perPage" scope="session"  value="5"/>
+                    <c:set var="pageStart" value="${param.start}"/>
+
+                    <c:if test="${empty pageStart or pageStart < 0}">
+                        <c:set var="pageStart" value="0"/>
+                    </c:if>
+
+                    <c:if test="${totalCount < pageStart}">
+                        <c:set var="pageStart" value="${pageStart - perPage}"/>
+                    </c:if>
+
+                    <c:set var="pageNo" value="${pageStart + 1} - ${pageStart + perPage}"/>
+
+<!--                    <a href="search.jsp?start=${pageStart - perPage}"><<</a>${pageNo}
+                    <a href="search.jsp?start=${pageStart + perPage}">>></a>-->
+
+                    <c:forEach var="dto" items="${sessionScope.LISTANSWER}" begin="${pageStart}" end="${pageStart + perPage - 1}" varStatus="counter">
                         <c:set var="answer" value="${dto.value}"/>
 
                         <form action="ControllerServlet" method="POST">
@@ -115,12 +134,26 @@
                             </table>
                             <br/>
                         </c:forEach>
-                        <a href="createquestion.jsp">Create New Question</a>
+
                     </form>
                 </c:if>
                 <c:if test="${sessionScope.ROLE != 'ADMIN'}">
                     <a href="student.jsp">Take Quiz</a>
                 </c:if>
+                <nav aria-label="Page navigation example" >
+                    <ul class="pagination" var>
+                        <li class="page-item"><a class="page-link" href="search.jsp?start=${pageStart - perPage}">Previous</a></li>
+
+                        <%--<c:forEach items="${pageNo}" varStatus="numberPages">--%>
+                            <li class="page-item"><a class="page-link" href="#">
+                                    ${pageNo}
+                                </a></li>
+                        <%--</c:forEach>--%>
+
+                        <li class="page-item"><a class="page-link" href="search.jsp?start=${pageStart + perPage}">Next</a></li>
+                    </ul>
+                </nav><br/>
+                <a href="createquestion.jsp">Create New Question</a>
         </div>
     </body>
 </html>
