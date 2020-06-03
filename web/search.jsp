@@ -132,28 +132,29 @@
                                     </tr>
                                 </tbody>
                             </table>
+                                    
                             <br/>
                         </c:forEach>
 
                     </form>
+                    <nav aria-label="Page navigation example" >
+                        <ul class="pagination" var>
+                            <li class="page-item"><a class="page-link" href="search.jsp?start=${pageStart - perPage}">Previous</a></li>
+
+                            <%--<c:forEach items="${pageNo}" varStatus="numberPages">--%>
+                            <li class="page-item"><a class="page-link" href="#">
+                                    ${pageNo}
+                                </a></li>
+                                <%--</c:forEach>--%>
+
+                            <li class="page-item"><a class="page-link" href="search.jsp?start=${pageStart + perPage}">Next</a></li>
+                        </ul>
+                    </nav><br/>
+                    <a href="createquestion.jsp">Create New Question</a>
                 </c:if>
                 <c:if test="${sessionScope.ROLE != 'ADMIN'}">
                     <a href="student.jsp">Take Quiz</a>
                 </c:if>
-                <nav aria-label="Page navigation example" >
-                    <ul class="pagination" var>
-                        <li class="page-item"><a class="page-link" href="search.jsp?start=${pageStart - perPage}">Previous</a></li>
-
-                        <%--<c:forEach items="${pageNo}" varStatus="numberPages">--%>
-                            <li class="page-item"><a class="page-link" href="#">
-                                    ${pageNo}
-                                </a></li>
-                        <%--</c:forEach>--%>
-
-                        <li class="page-item"><a class="page-link" href="search.jsp?start=${pageStart + perPage}">Next</a></li>
-                    </ul>
-                </nav><br/>
-                <a href="createquestion.jsp">Create New Question</a>
         </div>
     </body>
 </html>
